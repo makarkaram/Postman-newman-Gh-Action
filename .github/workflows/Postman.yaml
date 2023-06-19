@@ -27,12 +27,7 @@ jobs:
       uses: cpina/github-action-push-to-another-repository@main
       if: always()
       env:
-        API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
-      with:
-        source-directory: 'newman'
-        destination-github-username: 'Honest-Foxy'
-        destination-repository-name: 'Postman-Newman-GHActions'
-        user-email: malakhova.dariya@gmail.com
-        target-branch: report
+        API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN123 }}
+
 
     

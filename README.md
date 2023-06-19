@@ -18,7 +18,7 @@ To install dependencies , call `npm i`
 
 ## Run in Postman
 1. Run the mock server ```npm run tern-on-api```
-2. Import the `store.postmanV2.json` file into Postman
+2. Import the `store.postman_collection.json` file into Postman
 3. Open the "Store" collection
 4. CLick the "send" button to run tests
 

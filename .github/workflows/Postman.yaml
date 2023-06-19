@@ -1,34 +1,49 @@
-name: Postman-Newman-GHActions
+name: Test-Build
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+    branches:
+      - main
 jobs:
-  test:
-    timeout-minutes: 60
+  test-api:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '14.x'
-    - name: Install dependencies
-      run: npm i
-    - name: Run Newman Tests
-      run: npm run newman-run
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: report
-        path: newman/
-        retention-days: 30
-    - name: Deploy report to Github Pages
-      if: always()
-      uses: peaceiris/actions-gh-pages@v2
-      env:
-          PERSONAL_TOKEN:  ${{ secrets.TOKEN123 }}
-          PUBLISH_BRANCH: gh-pages
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+
+      # INstall Node on the runner
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      - run: npm i npm@latest
+      - run: npm i
+
+
+      # Install the newman command line utility and also install the html extra reporter
+      - name: Install newman
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+
+
+      # Make directory to upload the test results
+      - name: Make Directory for results
+        run: mkdir -p docs
+
+
+      # Run the POSTMAN collection
+      - name: Run POSTMAN collection
+        run: |
+          newman run petstore.collection.json -r htmlextra --reporter-htmlextra-export docs/index.html --reporter-htmlextra-darkTheme || true
+
+
+      # Upload the contents of docs directory to workspace
+      - name: Output the run Details
+        uses: actions/upload-artifact@v2
+        with:
+          name: RunReports
+          path: docs
 
 
 

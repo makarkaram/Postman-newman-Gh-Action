@@ -27,7 +27,7 @@ jobs:
       uses: cpina/github-action-push-to-another-repository@main
       if: always()
       env:
-        API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN123 }}
+        API_TOKEN_GITHUB: ${{ secrets.TOKEN123 }}
 
 
     

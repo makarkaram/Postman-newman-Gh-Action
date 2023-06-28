@@ -1,46 +1,39 @@
 name: Postman-Newman-GHActions
-
 on:
   push:
-    branches: [main, master]
+    branches: [ main, master ]
   pull_request:
-    branches: [main, master]
-
+    branches: [ main, master ]
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14.x'
-      - name: Install dependencies
-        run: npm ci
-      - name: Run Newman Tests
-        run: npm run newman-run
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: report
-          path: newman/
-          retention-days: 30
-      - name: Clone destination repository
-        uses: actions/checkout@v2
-        with:
-          repository: Honest-Foxy/Postman-Newman-GHActions
-          token: ${{ secrets.TOKEN123 }}
-          path: destination-repo
-      - name: Copy artifacts to destination repository
-        run: cp -R newman/ destination-repo/
-      - name: Commit and push changes to destination repository
-        working-directory: destination-repo
-        run: |
-          git config user.email "makarran63@gmail.com"
-          git config user.name "makarkaram"
-          git add .
-          git commit -m "Push artifacts"
-          git push origin main
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+    - name: Install dependencies
+      run: npm ci
+    - name: Run Newman Tests
+      run: npm run newman-run
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: report
+        path: newman/
+        retention-days: 30
+    - name: Push to repository
+      uses: cpina/github-action-push-to-another-repository@main
+      if: always()
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
+      with:
+        source-directory: 'newman'
+        destination-github-username: 'Honest-Foxy'
+        destination-repository-name: 'Postman-Newman-GHActions'
+        user-email: malakhova.dariya@gmail.com
+        target-branch: report
 
 
 

@@ -29,7 +29,7 @@ jobs:
       with:
         source-directory: 'newman'
         destination-github-username: 'makarkaram'
-        destination-repository-name: 'Postman-Newman-GHActions'
+        destination-repository-name: 'Postman-newman-Gh-Action'
         user-email: makarran63@gmail.com
         target-branch: report
 

@@ -1,4 +1,4 @@
-name: Push Artifacts
+name: Postman-Newman-GHActions
 
 on:
   push:

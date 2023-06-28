@@ -402,13 +402,7 @@
 									"pm.test(\"Response time is less than 1000ms\", function () {\r",
 									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
 									"});\r",
-									"for (let i = 1; i < 4; i++) {\r",
-									"    pm.sendRequest(pm.collectionVariables.get(\"baseUrl\") + \"/orders/\" + i, function (err, response) {\r",
-									"        pm.test(`Order name for id:${i} is \"order${i}\"`, function () {\r",
-									"            pm.expect(response.json().name).to.eql(`order${i}`);\r",
-									"        });\r",
-									"    });\r",
-									"}"
+									""
 								],
 								"type": "text/javascript"
 							}

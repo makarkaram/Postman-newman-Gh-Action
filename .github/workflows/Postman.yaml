@@ -1,29 +1,46 @@
-name: Newman Tests
+name: Push Artifacts
 
 on:
   push:
-    branches:
-      - main  # Replace with your branch name
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
 
 jobs:
-  newman:
+  test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Install Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'  # Replace with your desired Node.js version
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Run Newman tests
-      run: npx newman run <path_to_your_collection_file>  # Replace with the path to your collection file
-
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Newman Tests
+        run: npm run newman-run
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: report
+          path: newman/
+          retention-days: 30
+      - name: Clone destination repository
+        uses: actions/checkout@v2
+        with:
+          repository: Honest-Foxy/Postman-Newman-GHActions
+          token: ${{ secrets.TOKEN123 }}
+          path: destination-repo
+      - name: Copy artifacts to destination repository
+        run: cp -R newman/ destination-repo/
+      - name: Commit and push changes to destination repository
+        working-directory: destination-repo
+        run: |
+          git config user.email "makarran63@gmail.com"
+          git config user.name "makarkaram"
+          git add .
+          git commit -m "Push artifacts"
+          git push origin main
 
 
 

@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
       with:
-        node-version: '14.x'
+        node-version: '18.x'
     - name: Install dependencies
       run: npm ci
     - name: Run Newman Tests
@@ -27,12 +27,12 @@ jobs:
       uses: cpina/github-action-push-to-another-repository@main
       if: always()
       env:
-        API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
+        API_TOKEN_GITHUB: ${{ secrets.TOKEN123 }}
       with:
         source-directory: 'newman'
-        destination-github-username: 'Honest-Foxy'
-        destination-repository-name: 'Postman-Newman-GHActions'
-        user-email: malakhova.dariya@gmail.com
+        destination-github-username: 'makarkaram'
+        destination-repository-name: 'Postman-newman-Gh-Action'
+        user-email: makarran63@gmail.com
         target-branch: report
 
 

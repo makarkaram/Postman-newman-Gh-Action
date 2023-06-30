@@ -21,7 +21,7 @@ jobs:
       
       - name: Run POSTMAN collection
         run: |
-          newman run petstore.collection.json -r htmlextra --reporter-htmlextra-export docs/index.html || true
+          newman run store.postman_collection.json -r htmlextra --reporter-htmlextra-export docs/index.html || true
 
       - name: Add, commit and push changes
         run: |
